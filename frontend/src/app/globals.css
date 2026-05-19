@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-geist: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #0A0A0F;
+  color: #E2E8F0;
+  font-family: var(--font-geist);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #111118; }
+::-webkit-scrollbar-thumb { background: #1E1E2D; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #6C3BF5; }
+
+/* Glow effects */
+.glow-purple { box-shadow: 0 0 15px rgba(108, 59, 245, 0.3); }
+.glow-green { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }
+.glow-red { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
+.glow-gold { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+
+/* Gradient borders */
+.gradient-border {
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, #6C3BF5, #111118, #6C3BF5);
+  border-radius: inherit;
+  z-index: -1;
+}
+
+/* Number animations */
+.number-green { color: #10B981; }
+.number-red { color: #EF4444; }
+.number-gold { color: #F59E0B; }
+
+/* Table styles */
+.data-table tbody tr:hover { background: rgba(108, 59, 245, 0.05); }
+.data-table tbody tr { border-bottom: 1px solid #1E1E2D; transition: background 0.15s; }
+
+/* Card */
+.vecna-card {
+  background: #16161F;
+  border: 1px solid #1E1E2D;
+  border-radius: 12px;
+}
+
+/* Button */
+.btn-primary {
+  background: linear-gradient(135deg, #6C3BF5, #8B5CF6);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { 
+  transform: translateY(-1px); 
+  box-shadow: 0 4px 20px rgba(108, 59, 245, 0.4);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* Inputs */
+.vecna-input {
+  background: #0A0A0F;
+  border: 1px solid #1E1E2D;
+  color: #E2E8F0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.vecna-input:focus { border-color: #6C3BF5; }

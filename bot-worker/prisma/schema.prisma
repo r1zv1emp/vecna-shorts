@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  email        String   @unique
+  password     String
+  role         Role     @default(USER)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  inviteCodeId String?
+  inviteCode   InviteCode? @relation(fields: [inviteCodeId], references: [id])
+  apiSettings  ApiSettings?
+  trades       Trade[]
+  botSettings  BotSettings?
+}
+
+model InviteCode {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  isUsed    Boolean   @default(false)
+  usedAt    DateTime?
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  users     User[]
+}
+
+model ApiSettings {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiKey     String
+  secretKey  String
+  isTestnet  Boolean  @default(false)
+  updatedAt  DateTime @updatedAt
+}
+
+model BotSettings {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isRunning      Boolean  @default(false)
+  marginPercent  Float    @default(5)
+  takeProfitPct  Float    @default(1.5)
+  stopLossPct    Float    @default(2)
+  closeAfterMin  Int      @default(10)
+  updatedAt      DateTime @updatedAt
+}
+
+model Trade {
+  id           String      @id @default(cuid())
+  userId       String
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  symbol       String
+  side         String      @default("SHORT")
+  entryPrice   Float
+  exitPrice    Float?
+  quantity     Float
+  leverage     Int
+  margin       Float
+  pnl          Float?
+  fundingRate  Float
+  entryOrderId String?
+  exitOrderId  String?
+  status       TradeStatus @default(OPEN)
+  openedAt     DateTime    @default(now())
+  closedAt     DateTime?
+  closeReason  String?
+  duration     Int?
+}
+
+model GoldenCoin {
+  id          String   @id @default(cuid())
+  symbol      String   @unique
+  fundingRate Float
+  savedAt     DateTime @default(now())
+  notes       String?
+}
+
+model SelectedCoin {
+  id          String   @id @default(cuid())
+  symbol      String   @unique
+  fundingRate Float
+  addedAt     DateTime @default(now())
+}
+
+enum Role {
+  OWNER
+  USER
+}
+
+enum TradeStatus {
+  OPEN
+  CLOSED
+  CANCELLED
+}
