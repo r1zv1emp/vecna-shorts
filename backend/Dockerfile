@@ -1,5 +1,8 @@
 FROM node:20-alpine
 
+# Fix OpenSSL for Prisma on Alpine
+RUN apk add --no-cache openssl openssl-dev libc6-compat
+
 WORKDIR /app
 
 COPY package*.json ./
